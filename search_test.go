@@ -8,7 +8,7 @@ import (
 
 func TestCloneSearch(t *testing.T) {
 	s := new(search)
-	s.Where("name = ?", "jinzhu").Order("name").Attrs("name", "jinzhu").Select("name, age")
+	s.Where("name = ?", "conku").Order("name").Attrs("name", "conku").Select("name, age")
 
 	s1 := s.clone()
 	s1.Where("age = ?", 20).Order("age").Attrs("email", "a@e.org").Select("email")

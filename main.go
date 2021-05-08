@@ -146,7 +146,7 @@ func (s *DB) Dialect() Dialect {
 
 // Callback return `Callbacks` container, you could add/change/delete callbacks with it
 //     db.Callback().Create().Register("update_created_at", updateCreated)
-// Refer https://jinzhu.github.io/gorm/development.html#callbacks
+// Refer https://conku.github.io/gorm/development.html#callbacks
 func (s *DB) Callback() *Callback {
 	s.parent.callbacks = s.parent.callbacks.clone(s.logger)
 	return s.parent.callbacks
@@ -233,7 +233,7 @@ func (s *DB) SubQuery() *SqlExpr {
 	return Expr(fmt.Sprintf("(%v)", scope.SQL), scope.SQLVars...)
 }
 
-// Where return a new relation, filter records with given conditions, accepts `map`, `struct` or `string` as conditions, refer http://jinzhu.github.io/gorm/crud.html#query
+// Where return a new relation, filter records with given conditions, accepts `map`, `struct` or `string` as conditions, refer http://conku.github.io/gorm/crud.html#query
 func (s *DB) Where(query interface{}, args ...interface{}) *DB {
 	return s.clone().search.Where(query, args...).db
 }
@@ -288,7 +288,7 @@ func (s *DB) Having(query interface{}, values ...interface{}) *DB {
 }
 
 // Joins specify Joins conditions
-//     db.Joins("JOIN emails ON emails.user_id = users.id AND emails.email = ?", "jinzhu@example.org").Find(&user)
+//     db.Joins("JOIN emails ON emails.user_id = users.id AND emails.email = ?", "conku@example.org").Find(&user)
 func (s *DB) Joins(query string, args ...interface{}) *DB {
 	return s.clone().search.Joins(query, args...).db
 }
@@ -305,7 +305,7 @@ func (s *DB) Joins(query string, args ...interface{}) *DB {
 //     }
 //
 //     db.Scopes(AmountGreaterThan1000, OrderStatus([]string{"paid", "shipped"})).Find(&orders)
-// Refer https://jinzhu.github.io/gorm/crud.html#scopes
+// Refer https://conku.github.io/gorm/crud.html#scopes
 func (s *DB) Scopes(funcs ...func(*DB) *DB) *DB {
 	for _, f := range funcs {
 		s = f(s)
@@ -313,17 +313,17 @@ func (s *DB) Scopes(funcs ...func(*DB) *DB) *DB {
 	return s
 }
 
-// Unscoped return all record including deleted record, refer Soft Delete https://jinzhu.github.io/gorm/crud.html#soft-delete
+// Unscoped return all record including deleted record, refer Soft Delete https://conku.github.io/gorm/crud.html#soft-delete
 func (s *DB) Unscoped() *DB {
 	return s.clone().search.unscoped().db
 }
 
-// Attrs initialize struct with argument if record not found with `FirstOrInit` https://jinzhu.github.io/gorm/crud.html#firstorinit or `FirstOrCreate` https://jinzhu.github.io/gorm/crud.html#firstorcreate
+// Attrs initialize struct with argument if record not found with `FirstOrInit` https://conku.github.io/gorm/crud.html#firstorinit or `FirstOrCreate` https://conku.github.io/gorm/crud.html#firstorcreate
 func (s *DB) Attrs(attrs ...interface{}) *DB {
 	return s.clone().search.Attrs(attrs...).db
 }
 
-// Assign assign result with argument regardless it is found or not with `FirstOrInit` https://jinzhu.github.io/gorm/crud.html#firstorinit or `FirstOrCreate` https://jinzhu.github.io/gorm/crud.html#firstorcreate
+// Assign assign result with argument regardless it is found or not with `FirstOrInit` https://conku.github.io/gorm/crud.html#firstorinit or `FirstOrCreate` https://conku.github.io/gorm/crud.html#firstorcreate
 func (s *DB) Assign(attrs ...interface{}) *DB {
 	return s.clone().search.Assign(attrs...).db
 }
@@ -410,7 +410,7 @@ func (s *DB) Related(value interface{}, foreignKeys ...string) *DB {
 }
 
 // FirstOrInit find first matched record or initialize a new one with given conditions (only works with struct, map conditions)
-// https://jinzhu.github.io/gorm/crud.html#firstorinit
+// https://conku.github.io/gorm/crud.html#firstorinit
 func (s *DB) FirstOrInit(out interface{}, where ...interface{}) *DB {
 	c := s.clone()
 	if result := c.First(out, where...); result.Error != nil {
@@ -425,7 +425,7 @@ func (s *DB) FirstOrInit(out interface{}, where ...interface{}) *DB {
 }
 
 // FirstOrCreate find first matched record or create a new one with given conditions (only works with struct, map conditions)
-// https://jinzhu.github.io/gorm/crud.html#firstorcreate
+// https://conku.github.io/gorm/crud.html#firstorcreate
 func (s *DB) FirstOrCreate(out interface{}, where ...interface{}) *DB {
 	c := s.clone()
 	if result := s.First(out, where...); result.Error != nil {
@@ -439,13 +439,13 @@ func (s *DB) FirstOrCreate(out interface{}, where ...interface{}) *DB {
 	return c
 }
 
-// Update update attributes with callbacks, refer: https://jinzhu.github.io/gorm/crud.html#update
+// Update update attributes with callbacks, refer: https://conku.github.io/gorm/crud.html#update
 // WARNING when update with struct, GORM will not update fields that with zero value
 func (s *DB) Update(attrs ...interface{}) *DB {
 	return s.Updates(toSearchableMap(attrs...), true)
 }
 
-// Updates update attributes with callbacks, refer: https://jinzhu.github.io/gorm/crud.html#update
+// Updates update attributes with callbacks, refer: https://conku.github.io/gorm/crud.html#update
 func (s *DB) Updates(values interface{}, ignoreProtectedAttrs ...bool) *DB {
 	return s.NewScope(s.Value).
 		Set("gorm:ignore_protected_attrs", len(ignoreProtectedAttrs) > 0).
@@ -453,12 +453,12 @@ func (s *DB) Updates(values interface{}, ignoreProtectedAttrs ...bool) *DB {
 		callCallbacks(s.parent.callbacks.updates).db
 }
 
-// UpdateColumn update attributes without callbacks, refer: https://jinzhu.github.io/gorm/crud.html#update
+// UpdateColumn update attributes without callbacks, refer: https://conku.github.io/gorm/crud.html#update
 func (s *DB) UpdateColumn(attrs ...interface{}) *DB {
 	return s.UpdateColumns(toSearchableMap(attrs...))
 }
 
-// UpdateColumns update attributes without callbacks, refer: https://jinzhu.github.io/gorm/crud.html#update
+// UpdateColumns update attributes without callbacks, refer: https://conku.github.io/gorm/crud.html#update
 func (s *DB) UpdateColumns(values interface{}) *DB {
 	return s.NewScope(s.Value).
 		Set("gorm:update_column", true).
@@ -745,7 +745,7 @@ func (s *DB) RemoveForeignKey(field string, dest string) *DB {
 	return scope.db
 }
 
-// Association start `Association Mode` to handler relations things easir in that mode, refer: https://jinzhu.github.io/gorm/associations.html#association-mode
+// Association start `Association Mode` to handler relations things easir in that mode, refer: https://conku.github.io/gorm/associations.html#association-mode
 func (s *DB) Association(column string) *Association {
 	var err error
 	var scope = s.Set("gorm:association:source", s.Value).NewScope(s.Value)

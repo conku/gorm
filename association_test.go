@@ -724,10 +724,10 @@ func TestManyToMany(t *testing.T) {
 
 func TestRelated(t *testing.T) {
 	user := User{
-		Name:            "jinzhu",
+		Name:            "conku",
 		BillingAddress:  Address{Address1: "Billing Address - Address 1"},
 		ShippingAddress: Address{Address1: "Shipping Address - Address 1"},
-		Emails:          []Email{{Email: "jinzhu@example.com"}, {Email: "jinzhu-2@example@example.com"}},
+		Emails:          []Email{{Email: "conku@example.com"}, {Email: "conku-2@example@example.com"}},
 		CreditCard:      CreditCard{Number: "1234567890"},
 		Company:         Company{Name: "company1"},
 	}
@@ -755,7 +755,7 @@ func TestRelated(t *testing.T) {
 	}
 
 	var emails2 []Email
-	DB.Model(&user).Where("email = ?", "jinzhu@example.com").Related(&emails2)
+	DB.Model(&user).Where("email = ?", "conku@example.com").Related(&emails2)
 	if len(emails2) != 1 {
 		t.Errorf("Should have two emails")
 	}
@@ -901,7 +901,7 @@ func TestAutoSaveBelongsToAssociation(t *testing.T) {
 	DB.Where("name = ?", "auto_save_association").Delete(&Company{})
 	DB.AutoMigrate(&Company{}, &User{})
 
-	DB.Save(&User{Name: "jinzhu", Company: Company{Name: "auto_save_association"}})
+	DB.Save(&User{Name: "conku", Company: Company{Name: "auto_save_association"}})
 
 	if !DB.Where("name = ?", "auto_save_association").First(&Company{}).RecordNotFound() {
 		t.Errorf("Company auto_save_association should not have been saved when autosave is false")
@@ -912,7 +912,7 @@ func TestAutoSaveBelongsToAssociation(t *testing.T) {
 	DB.Save(&company)
 
 	company.Name = "auto_save_association_new_name"
-	user := User{Name: "jinzhu", Company: company}
+	user := User{Name: "conku", Company: company}
 
 	DB.Save(&user)
 
@@ -924,7 +924,7 @@ func TestAutoSaveBelongsToAssociation(t *testing.T) {
 		t.Errorf("User's foreign key should have been saved")
 	}
 
-	user2 := User{Name: "jinzhu_2", Company: Company{Name: "auto_save_association_2"}}
+	user2 := User{Name: "conku_2", Company: Company{Name: "auto_save_association_2"}}
 	DB.Set("gorm:association_autocreate", true).Save(&user2)
 	if DB.Where("name = ?", "auto_save_association_2").First(&Company{}).RecordNotFound() {
 		t.Errorf("Company auto_save_association_2 should been created when autocreate is true")
@@ -954,7 +954,7 @@ func TestAutoSaveHasOneAssociation(t *testing.T) {
 	DB.Where("name = ?", "auto_save_has_one_association").Delete(&Company{})
 	DB.AutoMigrate(&Company{}, &User{})
 
-	DB.Save(&User{Name: "jinzhu", Company: Company{Name: "auto_save_has_one_association"}})
+	DB.Save(&User{Name: "conku", Company: Company{Name: "auto_save_has_one_association"}})
 
 	if !DB.Where("name = ?", "auto_save_has_one_association").First(&Company{}).RecordNotFound() {
 		t.Errorf("Company auto_save_has_one_association should not have been saved when autosave is false")
@@ -964,7 +964,7 @@ func TestAutoSaveHasOneAssociation(t *testing.T) {
 	DB.Save(&company)
 
 	company.Name = "auto_save_has_one_association_new_name"
-	user := User{Name: "jinzhu", Company: company}
+	user := User{Name: "conku", Company: company}
 
 	DB.Save(&user)
 
@@ -987,7 +987,7 @@ func TestAutoSaveHasOneAssociation(t *testing.T) {
 		t.Errorf("Company should been updated")
 	}
 
-	user2 := User{Name: "jinzhu_2", Company: Company{Name: "auto_save_has_one_association_2"}}
+	user2 := User{Name: "conku_2", Company: Company{Name: "auto_save_has_one_association_2"}}
 	DB.Set("gorm:association_autocreate", true).Save(&user2)
 	if DB.Where("name = ?", "auto_save_has_one_association_2").First(&Company{}).RecordNotFound() {
 		t.Errorf("Company auto_save_has_one_association_2 should been created when autocreate is true")
@@ -1008,7 +1008,7 @@ func TestAutoSaveMany2ManyAssociation(t *testing.T) {
 
 	DB.AutoMigrate(&Company{}, &User{})
 
-	DB.Save(&User{Name: "jinzhu", Companies: []Company{{Name: "auto_save_m2m_association"}}})
+	DB.Save(&User{Name: "conku", Companies: []Company{{Name: "auto_save_m2m_association"}}})
 
 	if !DB.Where("name = ?", "auto_save_m2m_association").First(&Company{}).RecordNotFound() {
 		t.Errorf("Company auto_save_m2m_association should not have been saved when autosave is false")
@@ -1018,7 +1018,7 @@ func TestAutoSaveMany2ManyAssociation(t *testing.T) {
 	DB.Save(&company)
 
 	company.Name = "auto_save_m2m_association_new_name"
-	user := User{Name: "jinzhu", Companies: []Company{company, {Name: "auto_save_m2m_association_new_name_2"}}}
+	user := User{Name: "conku", Companies: []Company{company, {Name: "auto_save_m2m_association_new_name_2"}}}
 
 	DB.Save(&user)
 

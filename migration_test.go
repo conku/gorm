@@ -388,7 +388,7 @@ func TestAutoMigration(t *testing.T) {
 	}
 
 	now := time.Now()
-	DB.Save(&EmailWithIdx{Email: "jinzhu@example.org", UserAgent: "pc", RegisteredAt: &now})
+	DB.Save(&EmailWithIdx{Email: "conku@example.org", UserAgent: "pc", RegisteredAt: &now})
 
 	scope := DB.NewScope(&EmailWithIdx{})
 	if !scope.Dialect().HasIndex(scope.TableName(), "idx_email_agent") {
@@ -401,7 +401,7 @@ func TestAutoMigration(t *testing.T) {
 
 	var bigemail EmailWithIdx
 	DB.First(&bigemail, "user_agent = ?", "pc")
-	if bigemail.Email != "jinzhu@example.org" || bigemail.UserAgent != "pc" || bigemail.RegisteredAt.IsZero() {
+	if bigemail.Email != "conku@example.org" || bigemail.UserAgent != "pc" || bigemail.RegisteredAt.IsZero() {
 		t.Error("Big Emails should be saved and fetched correctly")
 	}
 }
@@ -471,7 +471,7 @@ func TestMultipleIndexes(t *testing.T) {
 		t.Errorf("Auto Migrate should not raise any error")
 	}
 
-	DB.Save(&MultipleIndexes{UserID: 1, Name: "jinzhu", Email: "jinzhu@example.org", Other: "foo"})
+	DB.Save(&MultipleIndexes{UserID: 1, Name: "conku", Email: "conku@example.org", Other: "foo"})
 
 	scope := DB.NewScope(&MultipleIndexes{})
 	if !scope.Dialect().HasIndex(scope.TableName(), "uix_multipleindexes_user_name") {
@@ -495,13 +495,13 @@ func TestMultipleIndexes(t *testing.T) {
 	}
 
 	var mutipleIndexes MultipleIndexes
-	DB.First(&mutipleIndexes, "name = ?", "jinzhu")
-	if mutipleIndexes.Email != "jinzhu@example.org" || mutipleIndexes.Name != "jinzhu" {
+	DB.First(&mutipleIndexes, "name = ?", "conku")
+	if mutipleIndexes.Email != "conku@example.org" || mutipleIndexes.Name != "conku" {
 		t.Error("MutipleIndexes should be saved and fetched correctly")
 	}
 
 	// Check unique constraints
-	if err := DB.Save(&MultipleIndexes{UserID: 1, Name: "name1", Email: "jinzhu@example.org", Other: "foo"}).Error; err == nil {
+	if err := DB.Save(&MultipleIndexes{UserID: 1, Name: "name1", Email: "conku@example.org", Other: "foo"}).Error; err == nil {
 		t.Error("MultipleIndexes unique index failed")
 	}
 
@@ -509,7 +509,7 @@ func TestMultipleIndexes(t *testing.T) {
 		t.Error("MultipleIndexes unique index failed")
 	}
 
-	if err := DB.Save(&MultipleIndexes{UserID: 2, Name: "name1", Email: "jinzhu@example.org", Other: "foo"}).Error; err == nil {
+	if err := DB.Save(&MultipleIndexes{UserID: 2, Name: "name1", Email: "conku@example.org", Other: "foo"}).Error; err == nil {
 		t.Error("MultipleIndexes unique index failed")
 	}
 

@@ -770,8 +770,8 @@ func TestFindOrCreate(t *testing.T) {
 		t.Errorf("user should be found and updated with assigned attrs")
 	}
 
-	DB.Where(&User{Name: "find or create embedded struct"}).Assign(User{Age: 44, CreditCard: CreditCard{Number: "1231231231"}, Emails: []Email{{Email: "jinzhu@assign_embedded_struct.com"}, {Email: "jinzhu-2@assign_embedded_struct.com"}}}).FirstOrCreate(&user8)
-	if DB.Where("email = ?", "jinzhu-2@assign_embedded_struct.com").First(&Email{}).RecordNotFound() {
+	DB.Where(&User{Name: "find or create embedded struct"}).Assign(User{Age: 44, CreditCard: CreditCard{Number: "1231231231"}, Emails: []Email{{Email: "conku@assign_embedded_struct.com"}, {Email: "conku-2@assign_embedded_struct.com"}}}).FirstOrCreate(&user8)
+	if DB.Where("email = ?", "conku-2@assign_embedded_struct.com").First(&Email{}).RecordNotFound() {
 		t.Errorf("embedded struct email should be saved")
 	}
 
@@ -795,7 +795,7 @@ func TestSelectWithEscapedFieldName(t *testing.T) {
 }
 
 func TestSelectWithVariables(t *testing.T) {
-	DB.Save(&User{Name: "jinzhu"})
+	DB.Save(&User{Name: "conku"})
 
 	rows, _ := DB.Table("users").Select("? as fake", gorm.Expr("name")).Rows()
 
@@ -812,12 +812,12 @@ func TestSelectWithVariables(t *testing.T) {
 }
 
 func TestSelectWithArrayInput(t *testing.T) {
-	DB.Save(&User{Name: "jinzhu", Age: 42})
+	DB.Save(&User{Name: "conku", Age: 42})
 
 	var user User
-	DB.Select([]string{"name", "age"}).Where("age = 42 AND name = 'jinzhu'").First(&user)
+	DB.Select([]string{"name", "age"}).Where("age = 42 AND name = 'conku'").First(&user)
 
-	if user.Name != "jinzhu" || user.Age != 42 {
+	if user.Name != "conku" || user.Age != 42 {
 		t.Errorf("Should have selected both age and name")
 	}
 }

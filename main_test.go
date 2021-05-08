@@ -146,7 +146,7 @@ func TestExceptionsWithInvalidSql(t *testing.T) {
 		t.Errorf("Should find some users")
 	}
 
-	if DB.Where("name = ?", "jinzhu; delete * from users").First(&User{}).Error == nil {
+	if DB.Where("name = ?", "conku; delete * from users").First(&User{}).Error == nil {
 		t.Errorf("Should got error with invalid SQL")
 	}
 
@@ -720,7 +720,7 @@ func TestRaw(t *testing.T) {
 		t.Errorf("Raw with Rows should find one record with name 3")
 	}
 
-	DB.Exec("update users set name=? where name in (?)", "jinzhu", []string{user1.Name, user2.Name, user3.Name})
+	DB.Exec("update users set name=? where name in (?)", "conku", []string{user1.Name, user2.Name, user3.Name})
 	if DB.Where("name in (?)", []string{user1.Name, user2.Name, user3.Name}).First(&User{}).Error != gorm.ErrRecordNotFound {
 		t.Error("Raw sql to update records")
 	}
